@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pengaturan - Nova</title>
+
+<style>
+
+body{
+    background:#020617;
+    color:white;
+    font-family:Arial,sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    transition:.3s;
+}
+
+
+.card{
+
+    background:#111827;
+    padding:30px;
+    border-radius:20px;
+    width:300px;
+    text-align:center;
+    transition:.3s;
+
+}
+
+
+input{
+
+    width:90%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    margin:10px 0;
+
+}
+
+
+button{
+
+    padding:12px 20px;
+    margin:5px;
+    border:none;
+    border-radius:15px;
+    background:#38bdf8;
+    color:white;
+    cursor:pointer;
+
+}
+
+
+button:hover{
+
+    background:#0ea5e9;
+
+}
+
+
+/* MODE WHITE */
+
+.white{
+
+    background:#f8fafc;
+    color:#020617;
+
+}
+
+
+.white .card{
+
+    background:#e2e8f0;
+
+}
+
+
+.white button{
+
+    color:white;
+
+}
+body{
+    opacity:0;
+    animation:fadeMasuk .4s ease forwards;
+}
+
+body.keluar{
+    animation:fadeKeluar .4s ease forwards;
+}
+
+@keyframes fadeMasuk{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeKeluar{
+    from{
+        opacity:1;
+        transform:translateY(0);
+    }
+    to{
+        opacity:0;
+        transform:translateY(-20px);
+    }
+}
+.hapus{
+    background:#ef4444;
+}
+#toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#111827;
+    color:white;
+    padding:15px 25px;
+    border-radius:15px;
+    opacity:0;
+    transition:.4s;
+    pointer-events:none;
+}
+
+#toast.show{
+    opacity:1;
+    bottom:40px;
+}
+</style>
+
+</head>
+
+<div id="toast"></div>
+<body>
+
+
+<div class="card">
+
+<button class="hapus" onclick="hapusAkun()">
+🗑 Hapus Akun
+</button>
+<h2>⚙ Pengaturan Nova</h2>
+
+
+<h3>🔒 Password</h3>
+
+<input 
+type="password" 
+id="password" 
+value="********"
+readonly>
+<hr>
+
+<input type="password" id="passwordBaru" placeholder="Password baru">
+
+<button onclick="gantiPassword()">
+🔑 Ganti Password
+</button>
+
+<br>
+
+
+<button onclick="lihatPassword()">
+👁 Lihat Password
+</button>
+
+
+
+<h3>🎨 Mode</h3>
+
+
+<button onclick="darkMode()">
+🌙 Dark
+</button>
+
+
+<button onclick="whiteMode()">
+☀️ White
+</button>
+
+
+
+<br><br>
+
+
+<button onclick="kembali()">
+⬅ Kembali
+</button>
+
+
+</div>
+
+
+
+
+<script>
+
+
+let pass = localStorage.getItem("password");
+
+let input = document.getElementById("password");
+
+let terlihat = false;
+
+
+function lihatPassword(){
+
+    if(pass == null){
+
+        input.value = "Password belum tersimpan";
+
+        return;
+
+    }
+
+
+    if(terlihat == false){
+
+        input.type = "text";
+        input.value = pass;
+        terlihat = true;
+
+    }
+
+    else{
+
+        input.type = "password";
+        input.value = "********";
+        terlihat = false;
+
+    }
+
+}
+
+
+
+
+function darkMode(){
+
+
+document.body.className="";
+
+
+localStorage.setItem("mode","dark");
+
+
+}
+
+
+
+
+function whiteMode(){
+
+
+document.body.className="white";
+
+
+localStorage.setItem("mode","white");
+
+
+}
+
+
+
+
+
+// cek mode saat dibuka
+
+let mode = localStorage.getItem("mode");
+
+
+if(mode=="white"){
+
+    document.body.className="white";
+
+}
+
+
+
+
+
+function kembali(){
+
+window.location.href="dashboard.html";
+
+}
+
+
+function gantiPassword(){
+
+    let pass = document.getElementById("passwordBaru").value;
+
+    if(pass.length < 8){
+        alert("Password minimal 8 karakter!");
+        return;
+    }
+
+    localStorage.setItem("password", pass);
+
+    document.getElementById("passwordBaru").value="";
+
+    alert("✅ Password berhasil diubah!");
+
+}
+function hapusAkun(){
+
+    let yakin = confirm("Yakin ingin menghapus akun?");
+
+    if(yakin){
+
+        localStorage.clear();
+
+        window.location.href="Register.html";
+
+    }
+
+}
+function toast(teks){
+
+    let t=document.getElementById("toast");
+
+    t.innerHTML=teks;
+
+    t.classList.add("show");
+
+    setTimeout(function(){
+
+        t.classList.remove("show");
+
+    },2500);
+
+}
+</script>
+
+
+</body>
+</html>

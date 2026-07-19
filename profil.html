@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profil - Nova</title>
+
+<style>
+body{
+    background:#020617;
+    color:white;
+    font-family:Arial,sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.profile{
+    background:rgba(255,255,255,.08);
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    width:300px;
+}
+
+.avatar{
+    font-size:60px;
+}
+
+button{
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    border-radius:20px;
+    background:#38bdf8;
+    color:white;
+}
+.white{
+    background:#f8fafc;
+    color:#020617;
+}
+
+.white .profile{
+    background:#e2e8f0;
+}
+
+.white button{
+    background:#38bdf8;
+    color:white;
+}
+
+.white p{
+    color:#334155;
+}
+input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:100px;
+    margin-top:15px;
+    outline:none;
+}
+hr{
+    margin:20px 0;
+    border:1px solid rgba(255,255,255,.15);
+}
+
+input{
+    width:85%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    margin:20px auto;
+    display:block;
+    outline:none;
+}
+
+
+button{
+    width:85%;
+    padding:12px;
+    margin:10px auto;
+    display:block;
+    border:none;
+    border-radius:20px;
+    background:#38bdf8;
+    color:white;
+}
+.avatar{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    margin:20px auto;
+    display:block;
+    border:3px solid #38bdf8;
+}
+
+#foto{
+    margin-top:15px;
+}
+body{
+    opacity:0;
+    animation:fadeMasuk .4s ease forwards;
+}
+
+body.keluar{
+    animation:fadeKeluar .4s ease forwards;
+}
+
+@keyframes fadeMasuk{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeKeluar{
+    from{
+        opacity:1;
+        transform:translateY(0);
+    }
+    to{
+        opacity:0;
+        transform:translateY(-20px);
+    }
+}
+#toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#111827;
+    color:white;
+    padding:15px 25px;
+    border-radius:15px;
+    opacity:0;
+    transition:.4s;
+    pointer-events:none;
+}
+
+#toast.show{
+    opacity:1;
+    bottom:40px;
+}
+</style>
+
+</head>
+<body>
+<div id="toast"></div>
+
+<div class="profile">
+<p>
+Total Login :
+<span id="login">0</span>
+</p>
+<img id="avatar" src="https://via.placeholder.com/120" class="avatar">
+<input type="file" id="foto" accept="image/*" hidden onchange="gantiFoto()">
+
+<button onclick="document.getElementById('foto').click()">
+📷 Pilih Foto
+</button>
+
+<h2 id="nama">User</h2>
+
+<p>Status: Aktif 🟢</p>
+<p>Member Nova</p>
+<p>
+📅 Akun dibuat:
+<br>
+<span id="tanggalBuat">-</span>
+</p>
+<hr>
+
+<input type="text" id="usernameBaru" placeholder="Username baru">
+
+<button onclick="editProfil()">
+✏ Simpan Perubahan
+</button>
+<button onclick="salinUsername()">
+📋 Salin Username
+</button>
+<button onclick="kembali()">
+⬅ Kembali
+</button>
+<br><br>
+
+</div>
+
+
+<script>
+
+// Tampilkan username
+let user = localStorage.getItem("username");
+
+if(user){
+    document.getElementById("nama").textContent = user;
+}else{
+    window.location.href = "Login.html";
+}
+
+// Tampilkan foto profil jika ada
+let foto = localStorage.getItem("fotoProfil");
+
+if(foto){
+    document.getElementById("avatar").src = foto;
+}
+
+// Ganti foto profil
+function gantiFoto(){
+
+    let file = document.getElementById("foto").files[0];
+
+    if(!file){
+        return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function(e){
+
+        document.getElementById("avatar").src = e.target.result;
+
+        localStorage.setItem("fotoProfil", e.target.result);
+
+        alert("✅ Foto profil berhasil diubah!");
+
+    }
+
+    reader.readAsDataURL(file);
+
+}
+
+// Edit username
+function editProfil(){
+
+    let usernameBaru = document.getElementById("usernameBaru").value.trim();
+
+    if(usernameBaru == ""){
+        alert("Masukkan username baru!");
+        return;
+    }
+
+    localStorage.setItem("username", usernameBaru);
+
+    document.getElementById("nama").textContent = usernameBaru;
+
+    document.getElementById("usernameBaru").value = "";
+
+    alert("✅ Username berhasil diubah!");
+
+}
+
+// Kembali ke dashboard
+function kembali(){
+    window.location.href = "dashboard.html";
+}
+
+// Terapkan tema
+let mode = localStorage.getItem("mode");
+
+if(mode == "white"){
+    document.body.classList.add("white");
+}
+function salinUsername(){
+
+    let user = localStorage.getItem("username");
+
+    navigator.clipboard.writeText(user);
+
+    alert("Username berhasil disalin!");
+
+}
+let login = Number(localStorage.getItem("jumlahLogin")) || 0;
+
+login++;
+
+localStorage.setItem("jumlahLogin",login);
+document.getElementById("login").innerHTML =
+localStorage.getItem("jumlahLogin") || 0
+function toast(teks){
+
+    let t=document.getElementById("toast");
+
+    t.innerHTML=teks;
+
+    t.classList.add("show");
+
+    setTimeout(function(){
+
+        t.classList.remove("show");
+
+    },2500);
+
+}
+
+if(dibuat){
+    document.getElementById("tanggalBuat").innerHTML = dibuat;
+}
+</script>
+
+</body>
+</html>

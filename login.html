@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Nova</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:linear-gradient(135deg,#0f172a,#111827,#020617);
+}
+
+.card{
+    width:340px;
+    padding:30px;
+    border-radius:20px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.15);
+    color:white;
+}
+
+h1{
+    text-align:center;
+    color:#38bdf8;
+}
+
+p{
+    text-align:center;
+    margin:10px 0 20px;
+    color:#cbd5e1;
+}
+
+label{
+    display:block;
+    margin:10px 0 5px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:10px;
+    outline:none;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#38bdf8;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0ea5e9;
+}
+
+#pesan{
+    text-align:center;
+    margin-top:15px;
+}
+
+a{
+    color:#38bdf8;
+    text-decoration:none;
+}
+
+.small{
+    text-align:center;
+    margin-top:20px;
+}
+body{
+    opacity:0;
+    animation:fadeMasuk .4s ease forwards;
+}
+
+body.keluar{
+    animation:fadeKeluar .4s ease forwards;
+}
+
+@keyframes fadeMasuk{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeKeluar{
+    from{
+        opacity:1;
+        transform:translateY(0);
+    }
+    to{
+        opacity:0;
+        transform:translateY(-20px);
+    }
+}
+#toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#111827;
+    color:white;
+    padding:15px 25px;
+    border-radius:15px;
+    opacity:0;
+    transition:.4s;
+    pointer-events:none;
+}
+
+#toast.show{
+    opacity:1;
+    bottom:40px;
+}
+</style>
+
+</head>
+<div id="toast"></div>
+<body>
+
+<div class="card">
+
+<h1>NOVA</h1>
+<p>Welcome Back 👋</p>
+
+<label>Username</label>
+<input type="text" id="username">
+
+<label>Password</label>
+<input type="password" id="password">
+
+<button onclick="login()">LOGIN</button>
+
+<p id="pesan"></p>
+
+<div class="small">
+Belum punya akun?
+<a href="register.html">Register</a>
+</div>
+
+</div>
+
+<script>
+
+function login(){
+
+let user = document.getElementById("username").value;
+let pass = document.getElementById("password").value;
+
+
+let simpanUser = localStorage.getItem("username");
+let simpanPass = localStorage.getItem("password");
+else if(user == simpanUser && pass == simpanPass){
+
+    pesan.innerHTML = "✅ Login berhasil!";
+
+
+let pesan = document.getElementById("pesan");
+
+
+if(user == "" || pass == ""){
+
+    pesan.innerHTML = "⚠ Lengkapi semua data!";
+
+}
+
+
+else if(user == simpanUser && pass == simpanPass){
+
+    pesan.innerHTML = "✅ Login berhasil!";
+
+
+    setTimeout(function(){
+
+        window.location.href="dashboard.html";
+
+    },1000);
+
+
+}
+
+
+else{
+
+    pesan.innerHTML="❌ Username atau Password salah!";
+
+}
+
+}
+function registerPage(){
+    window.location.href = "register.html";
+}
+function toast(teks){
+
+    let t=document.getElementById("toast");
+
+    t.innerHTML=teks;
+
+    t.classList.add("show");
+
+    setTimeout(function(){
+
+        t.classList.remove("show");
+
+    },2500);
+
+}
+</script>
+
+</body>
+</html>

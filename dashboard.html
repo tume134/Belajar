@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Studio</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:linear-gradient(135deg,#0f172a,#111827,#020617);
+    color:white;
+}
+
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px 20px;
+    background: rgba(15,23,42,.8);
+    backdrop-filter: blur(15px);
+    z-index: 999;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+    color:#38bdf8;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+}
+
+.hero{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
+
+.hero h1{
+    font-size:60px;
+}
+
+.hero span{
+    color:#38bdf8;
+}
+
+.hero p{
+    color:#cbd5e1;
+    margin:20px 0;
+}
+
+button{
+    padding:15px 35px;
+    border:none;
+    border-radius:50px;
+    background:#38bdf8;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+section{
+    padding:80px 10%;
+}
+
+.cards{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.card{
+    width:280px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    margin:10px 0;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#aaa;
+}
+.logout{
+    margin-top:15px;
+    padding:12px 25px;
+    width:80%;
+    background:#e74c3c;
+    color:white;
+    transition:.3s;
+    box-shadow:0 0 0 transparent;
+}
+
+.logout:active{
+    transform:scale(0.95);
+}
+
+.profil{
+    margin-top:15px;
+}
+.white{
+    background:#f8fafc;
+    color:#020617;
+}
+.white nav{
+    background:rgba(255,255,255,.8);
+}
+
+.white nav a{
+    color:#020617;
+}
+
+.white .card{
+    background:#e2e8f0;
+}
+
+.white .hero p{
+    color:#334155;
+}
+
+.white .card p{
+    color:#334155;
+}
+
+.white footer{
+    color:#475569;
+}
+.menu{
+    display:flex;
+    gap:10px;
+}
+
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+}
+
+.logo{
+    font-size:32px;
+    font-weight:bold;
+    color:#38bdf8;
+}
+
+.menu{
+    display:flex;
+    gap:8px;
+}
+
+.menu button{
+    width:45px;
+    height:45px;
+    padding:0;
+    border-radius:12px;
+    font-size:22px;
+}
+body{
+    opacity:0;
+    animation:fadeMasuk .4s ease forwards;
+}
+
+body.keluar{
+    animation:fadeKeluar .4s ease forwards;
+}
+
+@keyframes fadeMasuk{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeKeluar{
+    from{
+        opacity:1;
+        transform:translateY(0);
+    }
+    to{
+        opacity:0;
+        transform:translateY(-20px);
+
+function pindah(url){
+
+    document.body.classList.add("keluar");
+
+    setTimeout(function(){
+        window.location.href = url;
+    },400);
+  }
+}
+#toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#111827;
+    color:white;
+    padding:15px 25px;
+    border-radius:15px;
+    opacity:0;
+    transition:.4s;
+    pointer-events:none;
+}
+
+#toast.show{
+    opacity:1;
+    bottom:40px;
+}
+</style>
+
+</head>
+<div id="toast"></div>
+<body>
+<div id="loading">
+
+<h1>NOVA</h1>
+
+<div class="loader"></div>
+
+</div>
+<nav>
+
+<div class="logo">Nova</div>
+
+<div class="menu">
+
+<button onclick="profil()">👤</button>
+
+<button onclick="bukaSetting()">⚙️</button>
+
+<button onclick="logout()">🚪</button>
+
+</div>
+
+</nav>
+
+<section class="hero" id="home">
+
+<div>
+
+<h1>Halo, <span id="username">User</span> 👋</h1>
+
+<p>
+Selamat datang di Nova Studio.
+</p>
+
+<h2 id="jam"></h2>
+<p id="tanggal"></p>
+
+<p>
+Website sederhana dengan HTML, CSS, dan JavaScript.
+</p>
+
+<button onclick="document.getElementById('demo').scrollIntoView()">
+Coba Sekarang
+</button>
+
+</div>
+
+</section>
+
+<section id="fitur">
+
+<h2 style="text-align:center;margin-bottom:40px;">
+Fitur
+</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>⚡ Cepat</h3>
+<p>Tampilan ringan dan modern.</p>
+</div>
+
+<div class="card">
+<h3>🎨 Keren</h3>
+<p>Desain ala website zaman sekarang.</p>
+</div>
+
+<div class="card">
+<h3>📱 Responsive</h3>
+<p>Nyaman dibuka di HP.</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="demo">
+
+</section>
+
+<footer>
+© 2026 Nova Studio
+</footer>
+
+<script>
+function halo(){
+
+let nama=document.getElementById("nama").value;
+
+if(nama==""){
+document.getElementById("hasil").innerHTML="Masukkan nama dulu!";
+}else{
+document.getElementById("hasil").innerHTML="Halo, "+nama+"! 👋 Selamat datang.";
+}
+
+}
+function logout(){
+    localStorage.removeItem("loginUser");
+    window.location.href="Register.html";
+}
+function profil(){
+    window.location.href="profil.html";
+}
+function bukaSetting(){
+    window.location.href="setting.html";
+}
+let mode = localStorage.getItem("mode");
+
+if(mode=="white"){
+    document.body.className="white";
+}
+// Ambil username
+let user = localStorage.getItem("username");
+
+if(user){
+    document.getElementById("username").innerHTML = user;
+}
+
+// Jam & Tanggal
+function updateJam(){
+
+    let sekarang = new Date();
+
+    let jam = String(sekarang.getHours()).padStart(2,"0");
+    let menit = String(sekarang.getMinutes()).padStart(2,"0");
+    let detik = String(sekarang.getSeconds()).padStart(2,"0");
+
+    let hari = [
+        "Minggu",
+        "Senin",
+        "Selasa",
+        "Rabu",
+        "Kamis",
+        "Jumat",
+        "Sabtu"
+    ];
+
+    let bulan = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember"
+    ];
+
+    document.getElementById("jam").innerHTML =
+    "🕒 " + jam + ":" + menit + ":" + detik;
+
+    document.getElementById("tanggal").innerHTML =
+    "📅 " +
+    hari[sekarang.getDay()] + ", " +
+    sekarang.getDate() + " " +
+    bulan[sekarang.getMonth()] + " " +
+    sekarang.getFullYear();
+
+}
+
+updateJam();
+
+setInterval(updateJam,1000);
+function toast(teks){
+
+    let t=document.getElementById("toast");
+
+    t.innerHTML=teks;
+
+    t.classList.add("show");
+
+    setTimeout(function(){
+
+        t.classList.remove("show");
+
+    },2500);
+
+}
+</script>
+
+</body>
+</html>

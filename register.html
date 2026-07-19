@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - Nova</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:linear-gradient(135deg,#0f172a,#111827,#020617);
+}
+
+.card{
+    width:340px;
+    padding:30px;
+    border-radius:20px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.15);
+    color:white;
+}
+
+h1{
+    text-align:center;
+    color:#38bdf8;
+}
+
+p{
+    text-align:center;
+    color:#cbd5e1;
+    margin:10px 0 20px;
+}
+
+label{
+    display:block;
+    margin:10px 0 5px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:10px;
+    outline:none;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#38bdf8;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0ea5e9;
+}
+
+#pesan{
+    margin-top:15px;
+    text-align:center;
+}
+
+a{
+    color:#38bdf8;
+    text-decoration:none;
+}
+
+.small{
+    margin-top:20px;
+    text-align:center;
+}
+body{
+    opacity:0;
+    animation:fadeMasuk .4s ease forwards;
+}
+
+body.keluar{
+    animation:fadeKeluar .4s ease forwards;
+}
+
+@keyframes fadeMasuk{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeKeluar{
+    from{
+        opacity:1;
+        transform:translateY(0);
+    }
+    to{
+        opacity:0;
+        transform:translateY(-20px);
+    }
+}
+#toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#111827;
+    color:white;
+    padding:15px 25px;
+    border-radius:15px;
+    opacity:0;
+    transition:.4s;
+    pointer-events:none;
+}
+
+#toast.show{
+    opacity:1;
+    bottom:40px;
+}
+</style>
+</head>
+<body>
+<div id="toast"></div>
+
+<div class="card">
+
+<h1>NOVA</h1>
+<p>Buat akun baru</p>
+
+<label>Username</label>
+<input type="text" id="username">
+
+<label>Password</label>
+<input type="password" id="password">
+
+<button onclick="register()">REGISTER</button>
+
+<p id="pesan"></p>
+
+<div class="small">
+Sudah punya akun?
+<a href="Login.html">Login</a>
+</div>
+
+</div>
+
+<script>
+
+function register(){
+
+let user = document.getElementById("username").value;
+let pass = document.getElementById("password").value;
+let pesan = document.getElementById("pesan");
+
+// Cek input kosong
+if(user == "" || pass == ""){
+    pesan.innerHTML = "⚠ Lengkapi semua data!";
+    return;
+}
+
+// Cek minimal 8 karakter
+if(pass.length < 8){
+    pesan.innerHTML = "❌ Password minimal 8 karakter!";
+    return;
+}
+
+// Cek username sudah digunakan
+let userLama = localStorage.getItem("username");
+
+if(user == userLama){
+    pesan.innerHTML = "❌ Username sudah digunakan!";
+    return;
+}
+
+// Simpan akun
+localStorage.setItem("username", user);
+localStorage.setItem("password", pass);
+localStorage.setItem("loginUser", user);let sekarang = new Date();
+
+let tanggal =
+sekarang.getDate() + "/" +
+(sekarang.getMonth()+1) + "/" +
+sekarang.getFullYear();
+
+pesan.innerHTML = "✅ Registrasi berhasil!";
+
+    let sekarang = new Date();
+
+    let hari = sekarang.getDate().toString().padStart(2,"0");
+    let bulan = (sekarang.getMonth()+1).toString().padStart(2,"0");
+    let tahun = sekarang.getFullYear();
+
+    let jam = sekarang.getHours().toString().padStart(2,"0");
+    let menit = sekarang.getMinutes().toString().padStart(2,"0");
+
+    let tanggal = hari + "/" + bulan + "/" + tahun +
+                  " • " + jam + ":" + menit;
+
+    localStorage.setItem("tanggalBuat", tanggal);
+
+}
+
+setTimeout(function(){
+    window.location.href = "dashboard.html";
+},1500);
+
+}
+function toast(teks){
+
+    let t=document.getElementById("toast");
+
+    t.innerHTML=teks;
+
+    t.classList.add("show");
+
+    setTimeout(function(){
+
+        t.classList.remove("show");
+
+    },2500);
+
+}
+</script>
+
+</body>
+</html>
